@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --accent: #00d4ff;
+    --accent2: #7fff6e;
+    --font-display: 'Syne', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+    
+    --bg: #f0f4f8;
+    --surface: #ffffff;
+    --border: #d0dce8;
+    --muted: #7a97b0;
+    --text: #3a5068;
+    --white: #0d1825;
+    --nav-bg: rgba(240,244,248,0.94);
+    --card-hover: #f5f9fd;
+    --project-hover: #eef4fb;
+    --noise-opacity: 0.1;
+    --grid-line: rgba(0,150,180,0.06);
+    --scrollbar-thumb: #7a97b0;
+  }
+
+  .dark {
+    --bg: #080c10;
+    --surface: #0d1117;
+    --border: #1e2a38;
+    --muted: #4a6a82;
+    --text: #c8dae8;
+    --white: #e8f4ff;
+    --nav-bg: rgba(8,12,16,0.88);
+    --card-hover: #111820;
+    --project-hover: #0d1520;
+    --noise-opacity: 0.4;
+    --grid-line: rgba(0,212,255,0.04);
+    --scrollbar-thumb: #4a6a82;
+  }
+}
+
+@layer utilities {
+  .font-display { font-family: var(--font-display); }
+  .font-mono { font-family: var(--font-mono); }
+}
+
+body {
+  @apply bg-[var(--bg)] text-[var(--text)] font-mono text-sm leading-relaxed overflow-x-hidden transition-colors duration-300;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1000;
+  opacity: var(--noise-opacity);
+  transition: opacity 0.35s;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-[var(--bg)];
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-[var(--scrollbar-thumb)] rounded-sm;
+}
+
