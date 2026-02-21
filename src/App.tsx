@@ -254,7 +254,7 @@ export default function App() {
           >
             <div className="w-[280px] h-[340px] md:w-[320px] md:h-[400px] overflow-hidden rounded-sm border border-[var(--border)]">
               <img 
-                src="/profile.jpg" 
+                src="/public/profile.jpg" 
                 alt="Surely Win B. Dilag"
                 className="w-full h-full object-cover grayscale-[20%] contrast-[1.05]"
               />
