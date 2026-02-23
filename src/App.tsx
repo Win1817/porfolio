@@ -57,9 +57,9 @@ export default function App() {
 
   const skills = [
     { category: 'Cloud Platforms', list: 'Microsoft Azure (AKS, VM, VNet, NSG) · AWS (VPC, IAM, EC2, RDS, S3)', icon: <Cloud className="w-5 h-5 text-[var(--accent)]" /> },
-    { category: 'Containers & Orchestration', list: 'Kubernetes (AKS) · Docker · Helm · Rancher', icon: <Layers className="w-5 h-5 text-[var(--accent)]" /> },
+    { category: 'Containers & Orchestration', list: 'Kubernetes (AKS) · Docker · Helm · Rancher · Longhorn', icon: <Layers className="w-5 h-5 text-[var(--accent)]" /> },
     { category: 'Infrastructure as Code', list: 'Terraform · ARM Templates · Bicep', icon: <Terminal className="w-5 h-5 text-[var(--accent)]" /> },
-    { category: 'DevOps & CI/CD', list: 'Git · GitOps · JFrog Artifactory · Bash · PowerShell', icon: <Settings className="w-5 h-5 text-[var(--accent)]" /> },
+    { category: 'DevOps & CI/CD', list: 'Git · GitOps · ArgoCD · Jenkins · JFrog Artifactory · Bash · PowerShell', icon: <Settings className="w-5 h-5 text-[var(--accent)]" /> },
     { category: 'Observability', list: 'Prometheus · Grafana · Zabbix · Elasticsearch · Kibana', icon: <Monitor className="w-5 h-5 text-[var(--accent)]" /> },
     { category: 'Networking & Security', list: 'VNet · VPC · NSG · Firewalls · IAM · Keycloak SSO', icon: <Shield className="w-5 h-5 text-[var(--accent)]" /> },
     { category: 'Operating Systems', list: 'Linux (RHEL, Ubuntu) · Windows Server 2019/2022 · Proxmox · VMware', icon: <Cpu className="w-5 h-5 text-[var(--accent)]" /> },
