@@ -20,8 +20,10 @@ import {
   Monitor,
   Code,
   Globe,
-  Settings
+  Settings,
+  FileDown
 } from 'lucide-react';
+import { generateCV } from './generateCV';
 
 const AVAILABILITY_STATUS = import.meta.env.VITE_AVAILABILITY_STATUS || 'available';
 
@@ -153,6 +155,14 @@ export default function App() {
             {isDark ? <Sun size={18} /> : <Moon size={18} />}
           </button>
           
+          <button
+            onClick={generateCV}
+            className="hidden sm:flex items-center gap-2 px-4 py-2 border border-[var(--accent)] text-[var(--accent)] text-[11px] uppercase tracking-wider rounded-sm hover:bg-[var(--accent)] hover:text-[var(--bg)] transition-all"
+          >
+            <FileDown size={14} />
+            Download CV
+          </button>
+
           <a 
             href="https://www.linkedin.com/in/surely-win-dilag-598364214/" 
             target="_blank" 
