@@ -58,15 +58,15 @@ export default function App() {
   ];
 
   const skills = [
-    { category: 'Cloud Platforms', list: 'Microsoft Azure (AKS, VM, VNet, NSG) · AWS (VPC, IAM, EC2, RDS, S3)', icon: <Cloud className="w-5 h-5 text-[var(--accent)]" /> },
-    { category: 'Containers & Orchestration', list: 'Kubernetes (AKS) · Docker · Helm · Rancher · Longhorn', icon: <Layers className="w-5 h-5 text-[var(--accent)]" /> },
-    { category: 'Infrastructure as Code', list: 'Terraform · ARM Templates · Bicep', icon: <Terminal className="w-5 h-5 text-[var(--accent)]" /> },
-    { category: 'DevOps & CI/CD', list: 'Git · GitOps · ArgoCD · Jenkins · JFrog Artifactory · Bash · PowerShell', icon: <Settings className="w-5 h-5 text-[var(--accent)]" /> },
-    { category: 'Observability', list: 'Prometheus · Grafana · Zabbix · Elasticsearch · Kibana', icon: <Monitor className="w-5 h-5 text-[var(--accent)]" /> },
-    { category: 'Networking & Security', list: 'VNet · VPC · NSG · Firewalls · IAM · Keycloak SSO', icon: <Shield className="w-5 h-5 text-[var(--accent)]" /> },
+    { category: 'Cloud Platforms', list: 'Azure (VNets, NSG, VMs, AKS, Firewall, IAM, ARM Templates, CLI, Monitor, Policy, AI Foundry, Azure OpenAI) · AWS (EC2, S3, RDS, CloudWatch, VPC, AMI)', icon: <Cloud className="w-5 h-5 text-[var(--accent)]" /> },
+    { category: 'Kubernetes & Ops', list: 'Kubernetes (AKS) · OpenShift · Helm · Rancher · Headlamp · Istio (mTLS, traffic management, Kiali)', icon: <Layers className="w-5 h-5 text-[var(--accent)]" /> },
+    { category: 'DevOps & CI/CD', list: 'Git · GitOps · Azure DevOps · JFrog Artifactory · Jenkins · Bash · PowerShell', icon: <Settings className="w-5 h-5 text-[var(--accent)]" /> },
+    { category: 'Data & Integration', list: 'XML · AIXM (aviation data standard) · QGIS · REST APIs · Postman · Swagger · JSON · YAML · ActiveMQ', icon: <Globe className="w-5 h-5 text-[var(--accent)]" /> },
+    { category: 'Observability', list: 'Prometheus · Grafana · Zabbix · Elasticsearch · OpenSearch · Kibana · Tempo · Jaeger', icon: <Monitor className="w-5 h-5 text-[var(--accent)]" /> },
+    { category: 'Security & IAM', list: 'VNets · NSG · Firewalls · IAM · Keycloak · Encryption', icon: <Shield className="w-5 h-5 text-[var(--accent)]" /> },
     { category: 'Operating Systems', list: 'Linux (RHEL, Ubuntu) · Windows Server 2019/2022 · Proxmox · VMware', icon: <Cpu className="w-5 h-5 text-[var(--accent)]" /> },
-    { category: 'Programming', list: 'Python · C++ · Typescript . JavaScript (ReactJS, React Native) · Bash · PowerShell', icon: <Code className="w-5 h-5 text-[var(--accent)]" /> },
-    { category: 'Databases', list: 'MySQL · Microsoft SQL Server . Postgres· Amazon RDS', icon: <Database className="w-5 h-5 text-[var(--accent)]" /> },
+    { category: 'Programming', list: 'Python · C++ · ReactJS · React Native · Bash · PowerShell', icon: <Code className="w-5 h-5 text-[var(--accent)]" /> },
+    { category: 'Databases & ITSM', list: 'MySQL · Microsoft SQL Server · Amazon RDS · JIRA · Confluence · Jama · ConnectWise', icon: <Database className="w-5 h-5 text-[var(--accent)]" /> },
   ];
 
   const experience = [
@@ -74,17 +74,18 @@ export default function App() {
       period: 'Feb 2024 – Present',
       company: 'AirNav Technology Services',
       location: 'Iloilo City, Philippines',
-      title: 'Systems Engineer',
+      title: 'Systems & DevOps Engineer',
       duties: [
-        'Managed and supported Unmanned Traffic Management (UTM) systems in hybrid cloud environments.',
-        'Administered Linux servers (RHEL, Ubuntu) ensuring high availability and security compliance.',
-        'Deployed and maintained Azure Kubernetes Service (AKS) clusters using Rancher.',
-        'Developed and maintained Helm charts to automate Kubernetes application deployments.',
-        'Designed observability pipelines using Prometheus, Grafana, Zabbix, Elasticsearch, and Kibana.',
-        'Performed Azure cloud engineering tasks including virtual networking, firewall rules, IAM, and access control.',
-        'Automated provisioning using Bash and PowerShell scripts. Integrated Keycloak IAM across system components.',
-        'Worked with drone operators and government stakeholders to ensure EU aviation SWIM compliance.',
-        'Participated in on-site deployment and system integration in Brisbane, Australia.'
+        'Architect and maintain Azure cloud infrastructure aligned with AZ-104 competencies: VNets, NSGs, firewall policies, IAM, Azure Monitor, ARM templates, and cost governance.',
+        'Integrate Azure AI Foundry and Azure OpenAI services into UTM platform tooling, enabling intelligent automation for airspace data processing and operational analytics.',
+        'Design and enforce CI/CD best practices using Git, GitOps workflows, Azure DevOps pipelines, and JFrog Artifactory for consistent, auditable release management.',
+        'Oversee AKS and OpenShift cluster lifecycle management — provisioning, upgrades, scaling, and security hardening; leverage Headlamp as a modern Kubernetes dashboard.',
+        'Manage and troubleshoot Istio service mesh deployments including mTLS policies, traffic routing, circuit breaking, and Kiali observability integration across UTM namespaces.',
+        'Process and validate AIXM (Aeronautical Information Exchange Model) XML datasets for airspace zone ingestion pipelines; diagnose geometry resolution failures in composite-airspace structures.',
+        'Perform geospatial terrain analysis using QGIS and build Cloud-Optimized GeoTIFF (COG) datasets from raw elevation tile sources for UTM operational planning.',
+        'Architect observability stacks using Prometheus, Grafana, Zabbix, Elasticsearch, OpenSearch, and Kibana; deploy distributed tracing with Tempo and Jaeger.',
+        'Mentor junior engineers and coordinate cross-functional incident response across hybrid Azure/on-prem Kubernetes environments.',
+        'Collaborate with government aviation authorities (LFV Sweden, ANS Lithuania) to ensure EU SWIM compliance and AIXM data quality standards.',
       ]
     },
     {
@@ -93,14 +94,14 @@ export default function App() {
       location: 'Cebu City, Philippines',
       title: 'Cloud Engineer',
       duties: [
-        'Administered Windows Server 2019/2022 including AD, DNS, IIS, RD Gateway, and Group Policy.',
-        'Designed and managed Azure and AWS cloud infrastructure (VNets, VPCs, Load Balancers, Security Groups).',
-        'Deployed and managed AWS services: EC2, S3, AMI, CloudWatch, and RDS.',
-        'Performed data and domain migrations with minimal downtime.',
-        'Implemented security best practices through firewall rules, IAM policies, and encryption.',
-        'Automated routine tasks using PowerShell, Python, and Bash.',
-        'Managed databases including MySQL, MS SQL Server, and cloud-based storage.',
-        'Used ConnectWise Manage and IT Boost for ITSM, monitoring, and asset management.'
+        'Administered Windows Server 2019/2022 including Active Directory, DNS, IIS, Remote Desktop Gateway, and Group Policy for a healthcare SaaS platform.',
+        'Designed and managed scalable AWS cloud infrastructure comprising VPCs, Subnets, Security Groups, and Elastic Load Balancers, ensuring high availability and fault tolerance.',
+        'Deployed and managed core AWS services including EC2, S3, AMI, CloudWatch, and RDS; optimized cost and performance through instance right-sizing and S3 lifecycle policies.',
+        'Configured AWS IAM roles, policies, and permission boundaries to enforce least-privilege access across multi-account environments.',
+        'Implemented security best practices including Security Group rules, IAM policies, and encryption at rest and in transit.',
+        'Automated routine infrastructure provisioning and maintenance tasks using PowerShell, Python, and Bash.',
+        'Managed relational databases including MySQL, MS SQL Server, and Amazon RDS with focus on backup strategies, patching, and performance tuning.',
+        'Used ConnectWise Manage and IT Boost for ITSM ticketing, asset management, and infrastructure documentation.',
       ]
     },
     {
@@ -109,22 +110,30 @@ export default function App() {
       location: 'Bacolod City, Philippines',
       title: 'IT Specialist',
       duties: [
-        'Installed and maintained computer systems, peripherals, and enterprise software.',
-        'Managed network infrastructure including routers, switches, and firewalls.',
-        'Administered Ubiquiti Dream Machine Pro for optimized network performance.',
-        'Administered Microsoft 365 and Exchange Online.',
+        'Installed and maintained computer systems, peripherals, and enterprise software across the organization.',
+        'Managed network infrastructure including routers, switches, and firewalls to ensure reliable connectivity.',
         'Provisioned and managed Azure resources using Azure Portal, CLI, and ARM templates.',
-        'Configured Azure NSGs, subnets, and firewall rules.',
-        'Managed Microsoft Entra (Azure AD) App Registrations for secure authentication.'
+        'Configured Azure NSGs, subnets, and firewall rules; managed Microsoft Entra (Azure AD) App Registrations for secure authentication.',
+        'Administered Microsoft 365 and Exchange Online; monitored network traffic using Wireshark.',
+      ]
+    },
+    {
+      period: 'Oct 2020 – Jul 2021',
+      company: 'Panasiatic Solutions Inc.',
+      location: 'Philippines',
+      title: 'Technical Support Representative',
+      duties: [
+        'Provided L1/L2 technical support via phone, chat, and email; resolved hardware, software, and connectivity issues.',
+        'Acted as subject matter expert for escalated technical issues and guided users through structured troubleshooting.',
       ]
     }
   ];
 
   const projects = [
-    { name: 'Blind Mind Assistance', desc: 'Arduino-based assistive device with Text Message and GPS navigation for visually impaired individuals.', icon: '🦯' },
-    { name: 'Cemetery Web & Mobile App', desc: 'Full-stack WebApp and Mobile App for Sapian Cemetery — enabling digital lot management and visitor navigation.', icon: '🗺️' },
-    { name: 'Bluetooth Garbage Collector', desc: 'Semi-automated Bluetooth-controlled garbage collector robot for autonomous waste collection.', icon: '🤖' },
-    { name: 'Solar Automated Trash Bin', desc: 'Solar-powered automated trash bin with smart detection for sustainable waste management.', icon: '☀️' },
+    { name: 'PhantomMTG', desc: 'Full-stack React/TypeScript/Vite + Supabase web app for Magic: The Gathering collection management with AI-assisted deck building (Scryfall + Gemini architecture).', icon: '🃏' },
+    { name: 'LFV UTM Elevation Pipeline', desc: 'Processed 76 Swedish terrain XYZ tiles into a merged Cloud-Optimized GeoTIFF using PDAL and QGIS for UTM airspace operational data.', icon: '🛰️' },
+    { name: 'AVIONIX ATC Platform', desc: 'Built a 10-microservice Spring Boot ATC management system with React frontend, Keycloak, Kafka, PostgreSQL, and full observability stack on Azure.', icon: '✈️' },
+    { name: 'AIXM Upload Automation', desc: 'Python automation script replacing Postman workflows for airspace data ingestion, featuring token caching, retry logic, XML pre-flight validation, and dry-run mode.', icon: '⚙️' },
   ];
 
   const status = STATUS_CONFIG[AVAILABILITY_STATUS];
@@ -224,8 +233,8 @@ export default function App() {
             </h1>
             
             <p className="max-w-[520px] text-[var(--text)] leading-relaxed mb-10">
-              Cloud / Systems / DevOps Engineer — building resilient infrastructure across Azure, AWS, and Kubernetes.
-              Specialized in mission-critical aviation systems, hybrid cloud deployments, and full-stack observability pipelines.
+              Systems &amp; DevOps Engineer — architecting resilient cloud infrastructure across Azure, AWS, and Kubernetes.
+              Specialized in mission-critical aviation (UTM) systems, CI/CD pipelines, container orchestration, and full-stack observability.
             </p>
 
             <div className="flex flex-wrap gap-4">
@@ -412,6 +421,7 @@ export default function App() {
               <h3 className="font-display text-lg font-bold text-[var(--white)] mb-6 pb-3 border-b border-[var(--border)]">Certifications</h3>
               <div className="flex flex-col gap-3">
                 {[
+                  'Microsoft Azure Administrator (AZ-104)',
                   'Sumo Logic Cloud Infrastructure Security Certified',
                   'Microsoft Azure Infrastructure Solutions',
                   'Linux Fundamentals',

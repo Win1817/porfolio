@@ -1,55 +1,70 @@
 import jsPDF from 'jspdf';
 
-// ─── Colour palette ───────────────────────────────────────────────
-const C = {
-  accent:   [0,   180, 220] as [number,number,number],   // cyan
-  black:    [10,  15,  22]  as [number,number,number],
-  dark:     [30,  50,  70]  as [number,number,number],
-  mid:      [80,  110, 130] as [number,number,number],
-  light:    [180, 210, 230] as [number,number,number],
-  bg:       [245, 249, 253] as [number,number,number],
-  white:    [255, 255, 255] as [number,number,number],
-  rule:     [220, 232, 242] as [number,number,number],
-};
+// ─── ATS-FRIENDLY CV GENERATOR ────────────────────────────────────
+// Uses plain Helvetica, single-pass left-to-right text, no columns,
+// no images, no tables — optimised for ATS keyword parsing.
 
-// ─── Page geometry ────────────────────────────────────────────────
-const PW  = 210;          // A4 width  mm
-const PH  = 297;          // A4 height mm
-const ML  = 18;           // left margin
-const MR  = 18;           // right margin
-const MT  = 0;            // top margin (header owns it)
-const COL = 62;           // sidebar width
-const GAP = 6;            // gap between sidebar & main
-const MX  = ML + COL + GAP; // main column x
-const MW  = PW - MX - MR;   // main column width
+const PW  = 210;
+const PH  = 297;
+const ML  = 20;   // left margin
+const MR  = 20;   // right margin
+const TW  = PW - ML - MR;  // text width
+const BOT = 18;   // bottom margin before page break
 
-// ─── Data ─────────────────────────────────────────────────────────
+// ── Palette (greyscale-safe, renders well when printed B&W) ───────
+type RGB = [number, number, number];
+const BLACK:  RGB = [15,  20,  30];
+const DARK:   RGB = [40,  55,  75];
+const MID:    RGB = [90, 110, 130];
+const ACCENT: RGB = [0,  150, 190];
+const RULE:   RGB = [200, 215, 225];
+const WHITE:  RGB = [255, 255, 255];
+
+// ── DATA ──────────────────────────────────────────────────────────
 const DATA = {
   name:     'Surely Win B. Dilag',
-  title:    'Cloud / Systems / DevOps Engineer',
+  title:    'Systems & DevOps Engineer',
   email:    'dsurelywin@gmail.com',
   phone:    '+63 956 766 9410',
   location: 'Negros Occidental, Philippines',
   linkedin: 'linkedin.com/in/surely-win-dilag-598364214',
+
   summary:
-    'Systems and Cloud Engineer with 4+ years of experience architecting and ' +
-    'maintaining high-availability infrastructure across Azure, AWS, and Kubernetes. ' +
-    'Specialized in mission-critical aviation (UTM) systems, hybrid cloud deployments, ' +
-    'CI/CD pipelines, and full-stack observability.',
+    'Systems and DevOps Engineer with extensive experience in cloud infrastructure, Kubernetes, ' +
+    'OpenShift, and CI/CD pipeline engineering. Deep expertise in Azure cloud architecture ' +
+    '(AZ-104 level), container orchestration, AI/ML platform integration via Azure AI Foundry ' +
+    'and Azure OpenAI, observability (Prometheus, Grafana, Zabbix, OpenSearch), and security. ' +
+    'Experienced in supporting mission-critical aviation and UTM systems, AIXM/XML data pipelines, ' +
+    'hybrid cloud deployments, and collaborating with international stakeholders. Adept at ' +
+    'infrastructure automation, reliability engineering, and incident response.',
 
   skills: [
-    { cat: 'Cloud',        items: 'Azure (AKS, VM, VNet, NSG) · AWS (VPC, IAM, EC2, RDS, S3)' },
-    { cat: 'Containers',   items: 'Kubernetes · Docker · Helm · Rancher · Longhorn' },
-    { cat: 'IaC',          items: 'Terraform · ARM Templates · Bicep' },
-    { cat: 'DevOps/CI-CD', items: 'Git · GitOps · ArgoCD · Jenkins · JFrog · Bash · PowerShell' },
-    { cat: 'Observability',items: 'Prometheus · Grafana · Zabbix · Elasticsearch · Kibana' },
-    { cat: 'Security',     items: 'VNet/VPC · NSG · Firewalls · IAM · Keycloak SSO' },
-    { cat: 'OS',           items: 'Linux (RHEL, Ubuntu) · Windows Server 2019/22 · Proxmox · VMware' },
-    { cat: 'Programming',  items: 'Python · TypeScript · JavaScript (React) · Bash · PowerShell · C++' },
-    { cat: 'Databases',    items: 'MySQL · PostgreSQL · MS SQL Server · Amazon RDS' },
+    { cat: 'Cloud Platforms',
+      val: 'Azure (VNets, NSG, VMs, AKS, Firewall, IAM, ARM Templates, CLI, Monitor, Policy, AI Foundry, Azure OpenAI), AWS (EC2, S3, RDS, CloudWatch, VPC, AMI)' },
+    { cat: 'Kubernetes & Ops',
+      val: 'Kubernetes (AKS), OpenShift, Helm, Rancher, Headlamp, Istio (service mesh, mTLS, traffic management)' },
+    { cat: 'Containers & VMs',
+      val: 'Docker, Proxmox, VMware, Azure VM' },
+    { cat: 'DevOps & CI/CD',
+      val: 'Git, GitOps, Azure DevOps, JFrog Artifactory, Jenkins, Bash, PowerShell' },
+    { cat: 'Data & Integration',
+      val: 'XML, AIXM (aviation data standard), QGIS, REST APIs, Postman, Swagger, JSON, YAML, ActiveMQ' },
+    { cat: 'Observability',
+      val: 'Prometheus, Grafana, Zabbix, Elasticsearch, OpenSearch, Kibana, Tempo, Jaeger' },
+    { cat: 'Operating Systems',
+      val: 'Linux (RHEL, Ubuntu), Windows Server 2019/2022' },
+    { cat: 'Programming',
+      val: 'Python, C++, ReactJS, React Native' },
+    { cat: 'Security & IAM',
+      val: 'VNets, NSG, Firewalls, IAM, Keycloak, Encryption' },
+    { cat: 'Databases',
+      val: 'MySQL, Microsoft SQL Server, Amazon RDS' },
+    { cat: 'ITSM & Docs',
+      val: 'JIRA, Confluence, Jama, ConnectWise' },
   ],
 
   certifications: [
+    'Microsoft Azure Administrator (AZ-104) – Core competency in Azure infrastructure management',
     'Sumo Logic Cloud Infrastructure Security Certified',
     'Microsoft Azure Infrastructure Solutions',
     'Linux Fundamentals',
@@ -58,295 +73,274 @@ const DATA = {
 
   education: [
     {
-      degree:  'B.Eng. Technology – Computer Engineering',
-      school:  'Technological University of the Philippines – Visayas',
-      period:  '2018 – 2022',
+      degree: 'Bachelor of Engineering Technology – Major in Computer Engineering',
+      school: 'Technological University of the Philippines – Visayas',
+      period: '2018 – 2022',
     },
     {
-      degree:  'Computer Systems Servicing NC II',
-      school:  'La Consolacion College – Murcia',
-      period:  '2016 – 2018',
+      degree: 'Computer Systems Servicing NCII',
+      school: 'La Consolacion College – Murcia',
+      period: '2016 – 2018',
     },
   ],
 
   experience: [
     {
-      period:  'Feb 2024 – Present',
+      title:   'Systems & DevOps Engineer',
       company: 'AirNav Technology Services',
       loc:     'Iloilo City, Philippines',
-      title:   'Systems Engineer',
+      period:  'Feb 2024 – Present',
       duties: [
-        'Managed Unmanned Traffic Management (UTM) systems in hybrid cloud environments.',
-        'Administered Linux servers (RHEL, Ubuntu) ensuring high availability and security compliance.',
-        'Deployed and maintained Azure Kubernetes Service (AKS) clusters using Rancher.',
-        'Developed and maintained Helm charts to automate Kubernetes application deployments.',
-        'Designed observability pipelines using Prometheus, Grafana, Zabbix, Elasticsearch, and Kibana.',
-        'Performed Azure cloud engineering: virtual networking, firewall rules, IAM, and access control.',
-        'Automated provisioning using Bash and PowerShell; integrated Keycloak IAM.',
-        'Ensured EU aviation SWIM compliance with drone operators and government stakeholders.',
-        'Participated in on-site deployment and system integration in Brisbane, Australia.',
+        'Architect and maintain Azure cloud infrastructure aligned with AZ-104 competencies: VNets, NSGs, firewall policies, IAM, Azure Monitor, ARM templates, and cost governance.',
+        'Integrate Azure AI Foundry and Azure OpenAI services into UTM platform tooling, enabling intelligent automation for airspace data processing and operational analytics.',
+        'Design and enforce CI/CD best practices using Git, GitOps workflows, Azure DevOps pipelines, and JFrog Artifactory for consistent, auditable release management.',
+        'Oversee AKS and OpenShift cluster lifecycle management — provisioning, upgrades, scaling, and security hardening; leverage Headlamp as a modern Kubernetes dashboard for cluster visibility.',
+        'Manage and troubleshoot Istio service mesh deployments including mTLS policies, traffic routing, circuit breaking, and Kiali observability integration across UTM namespaces.',
+        'Process and validate AIXM (Aeronautical Information Exchange Model) XML datasets for airspace zone ingestion pipelines; diagnose geometry resolution failures in composite-airspace AIXM structures.',
+        'Perform geospatial terrain analysis using QGIS and build Cloud-Optimized GeoTIFF (COG) datasets from raw elevation tile sources for UTM operational planning.',
+        'Lead Helm chart development and standardization for automated, repeatable Kubernetes application deployments across multi-namespace UTM environments.',
+        'Architect observability stacks using Prometheus, Grafana, Zabbix, Elasticsearch, OpenSearch, and Kibana; deploy distributed tracing with Tempo and Jaeger.',
+        'Drive infrastructure-as-code initiatives and automation using Bash, PowerShell, and Python; author production-grade tooling including AIXM upload automation with retry logic and dry-run modes.',
+        'Mentor junior engineers and coordinate cross-functional incident response and change management across hybrid Azure/on-prem Kubernetes environments.',
+        'Collaborate with drone operators and government aviation authorities (LFV Sweden, ANS Lithuania) to ensure EU SWIM compliance and AIXM data quality standards.',
       ],
     },
     {
-      period:  'Mar 2023 – Feb 2024',
+      title:   'Cloud Engineer',
       company: 'MedSpecialized Inc.',
       loc:     'Cebu City, Philippines',
-      title:   'Cloud Engineer',
+      period:  'Mar 2023 – Feb 2024',
       duties: [
-        'Administered Windows Server 2019/2022 including AD, DNS, IIS, RD Gateway, and Group Policy.',
-        'Designed and managed Azure and AWS cloud infrastructure (VNets, VPCs, Load Balancers, Security Groups).',
-        'Deployed and managed AWS services: EC2, S3, AMI, CloudWatch, and RDS.',
-        'Performed data and domain migrations with minimal downtime.',
-        'Implemented firewall rules, IAM policies, and encryption security best practices.',
-        'Automated routine tasks using PowerShell, Python, and Bash.',
-        'Managed MySQL, MS SQL Server, and cloud-based storage databases.',
+        'Administered Windows Server 2019/2022 environments including Active Directory, DNS, IIS, Remote Desktop Gateway, and Group Policy for a healthcare SaaS platform.',
+        'Designed and managed scalable AWS cloud infrastructure comprising VPCs, Subnets, Security Groups, and Elastic Load Balancers, ensuring high availability and fault tolerance.',
+        'Deployed and managed core AWS services including EC2, S3, AMI, CloudWatch, and RDS; optimized cost and performance through instance right-sizing and S3 lifecycle policies.',
+        'Configured AWS IAM roles, policies, and permission boundaries to enforce least-privilege access across multi-account environments.',
+        'Built and maintained CI/CD pipelines using Git for automated deployments and streamlined release management.',
+        'Implemented security best practices including Security Group rules, IAM policies, and encryption at rest and in transit across AWS workloads.',
+        'Automated routine infrastructure provisioning and maintenance tasks using PowerShell, Python, and Bash, reducing manual effort and improving consistency.',
+        'Managed relational databases including MySQL, MS SQL Server, and Amazon RDS with focus on backup strategies, patching, and performance tuning.',
+        'Used ConnectWise Manage and IT Boost for ITSM ticketing, asset management, and infrastructure documentation.',
       ],
     },
     {
-      period:  'Aug 2021 – Mar 2023',
+      title:   'IT Specialist',
       company: 'BluCruPH Inc.',
       loc:     'Bacolod City, Philippines',
-      title:   'IT Specialist',
+      period:  'Aug 2021 – Mar 2023',
       duties: [
-        'Installed and maintained computer systems, peripherals, and enterprise software.',
-        'Managed network infrastructure including routers, switches, and firewalls.',
-        'Administered Ubiquiti Dream Machine Pro for optimized network performance.',
-        'Administered Microsoft 365 and Exchange Online.',
-        'Provisioned Azure resources via Portal, CLI, and ARM templates; configured NSGs and subnets.',
-        'Managed Microsoft Entra (Azure AD) App Registrations for secure authentication.',
+        'Installed and maintained computer systems, peripherals, and enterprise software across the organization.',
+        'Managed network infrastructure including routers, switches, and firewalls to ensure reliable connectivity.',
+        'Provisioned and managed Azure resources using Azure Portal, CLI, and ARM templates.',
+        'Configured Azure NSGs, subnets, and firewall rules; managed Microsoft Entra (Azure AD) App Registrations for secure authentication.',
+        'Administered Microsoft 365 and Exchange Online; monitored network traffic using Wireshark.',
+      ],
+    },
+    {
+      title:   'Technical Support Representative',
+      company: 'Panasiatic Solutions Inc.',
+      loc:     'Philippines',
+      period:  'Oct 2020 – Jul 2021',
+      duties: [
+        'Provided L1/L2 technical support via phone, chat, and email; resolved hardware, software, and connectivity issues.',
+        'Acted as subject matter expert for escalated technical issues and guided users through structured troubleshooting.',
       ],
     },
   ],
 
   projects: [
-    { name: 'Blind Mind Assistance',      desc: 'Arduino assistive device with SMS & GPS navigation for the visually impaired.' },
-    { name: 'Cemetery Web & Mobile App',  desc: 'Full-stack app for digital lot management and visitor navigation.' },
-    { name: 'Bluetooth Garbage Collector',desc: 'Semi-automated BT-controlled robot for autonomous waste collection.' },
-    { name: 'Solar Automated Trash Bin',  desc: 'Solar-powered smart bin with automated detection for waste management.' },
+    {
+      name: 'PhantomMTG',
+      desc: 'Full-stack React/TypeScript/Vite + Supabase web app for Magic: The Gathering collection management with AI-assisted deck building (Scryfall + Gemini architecture).',
+    },
+    {
+      name: 'LFV UTM Elevation Pipeline',
+      desc: 'Processed 76 Swedish terrain XYZ tiles into a merged Cloud-Optimized GeoTIFF using PDAL and QGIS for UTM airspace operational data.',
+    },
+    {
+      name: 'AVIONIX ATC Platform',
+      desc: 'Built a 10-microservice Spring Boot ATC management system with React frontend, Keycloak, Kafka, PostgreSQL, and full observability stack on Azure.',
+    },
+    {
+      name: 'AIXM Upload Automation',
+      desc: 'Python automation script replacing Postman workflows for airspace data ingestion, featuring token caching, retry logic, XML pre-flight validation, and dry-run mode.',
+    },
   ],
 };
 
-// ─── Helpers ──────────────────────────────────────────────────────
-function setFont(
-  doc: jsPDF,
-  size: number,
-  style: 'normal'|'bold'|'italic' = 'normal',
-  color: [number,number,number] = C.dark
-) {
+// ── Helpers ───────────────────────────────────────────────────────
+function font(doc: jsPDF, size: number, style: 'normal'|'bold'|'italic' = 'normal', color: RGB = DARK) {
   doc.setFontSize(size);
   doc.setFont('helvetica', style);
   doc.setTextColor(...color);
 }
 
-function hRule(doc: jsPDF, y: number, x = ML, w = PW - ML - MR, thickness = 0.2) {
-  doc.setDrawColor(...C.rule);
-  doc.setLineWidth(thickness);
-  doc.line(x, y, x + w, y);
+function rule(doc: jsPDF, y: number, color: RGB = RULE, lw = 0.25) {
+  doc.setDrawColor(...color);
+  doc.setLineWidth(lw);
+  doc.line(ML, y, ML + TW, y);
 }
 
-/**
- * Wraps text and returns the new Y after printing.
- * Handles automatic page breaks.
- */
-function wrappedText(
-  doc: jsPDF,
-  text: string,
-  x: number,
-  y: number,
-  maxW: number,
-  lineH: number,
-  pageH = PH,
-  bottomMargin = 18
-): number {
+function wrap(doc: jsPDF, text: string, x: number, y: number, maxW: number, lh: number): number {
   const lines = doc.splitTextToSize(text, maxW);
   for (const line of lines) {
-    if (y + lineH > pageH - bottomMargin) {
-      doc.addPage();
-      y = 24;
-    }
+    if (y + lh > PH - BOT) { doc.addPage(); y = 22; }
     doc.text(line, x, y);
-    y += lineH;
+    y += lh;
   }
   return y;
 }
 
-// ─── Section heading ──────────────────────────────────────────────
-function sectionHeading(doc: jsPDF, label: string, y: number, x = MX, w = MW): number {
-  setFont(doc, 8, 'bold', C.accent);
-  doc.text(label.toUpperCase(), x, y);
-  y += 1.5;
-  doc.setDrawColor(...C.accent);
-  doc.setLineWidth(0.4);
-  doc.line(x, y, x + w, y);
-  return y + 4;
-}
-
-// ─── Sidebar section heading ──────────────────────────────────────
-function sideHeading(doc: jsPDF, label: string, y: number): number {
-  setFont(doc, 7.5, 'bold', C.accent);
+function sectionHead(doc: jsPDF, label: string, y: number): number {
+  if (y + 12 > PH - BOT) { doc.addPage(); y = 22; }
+  font(doc, 9, 'bold', ACCENT);
   doc.text(label.toUpperCase(), ML, y);
-  y += 1.5;
-  doc.setDrawColor(...C.accent);
-  doc.setLineWidth(0.3);
-  doc.line(ML, y, ML + COL, y);
-  return y + 4;
+  y += 1.8;
+  rule(doc, y, ACCENT, 0.5);
+  return y + 5;
 }
 
-// ─── Main export function ─────────────────────────────────────────
+// ── Main export ───────────────────────────────────────────────────
 export function generateCV() {
   const doc = new jsPDF({ unit: 'mm', format: 'a4', compress: true });
+
   doc.setProperties({
     title:   'Surely Win B. Dilag – CV',
     author:  'Surely Win B. Dilag',
-    subject: 'Cloud / Systems / DevOps Engineer',
-    creator: 'sdilag.us',
+    subject: 'Systems & DevOps Engineer',
+    creator: 'sdilag.us portfolio',
+    keywords: 'DevOps, Cloud, Kubernetes, Azure, AWS, AKS, OpenShift, Helm, Terraform, CI/CD',
   });
 
-  // ── HEADER BAR ─────────────────────────────────────────────────
-  const HEADER_H = 38;
-  doc.setFillColor(...C.black);
-  doc.rect(0, 0, PW, HEADER_H, 'F');
+  // ── HEADER ──────────────────────────────────────────────────────
+  // Solid dark bar
+  doc.setFillColor(...BLACK);
+  doc.rect(0, 0, PW, 36, 'F');
+  // Accent left strip
+  doc.setFillColor(...ACCENT);
+  doc.rect(0, 0, 4, 36, 'F');
 
-  // Accent left stripe
-  doc.setFillColor(...C.accent);
-  doc.rect(0, 0, 4, HEADER_H, 'F');
+  font(doc, 22, 'bold', WHITE);
+  doc.text(DATA.name, ML + 5, 13);
 
-  // Name
-  setFont(doc, 20, 'bold', C.white);
-  doc.text(DATA.name, ML + 4, 14);
+  font(doc, 10, 'normal', [0, 200, 230] as RGB);
+  doc.text(DATA.title, ML + 5, 20);
 
-  // Title
-  setFont(doc, 9.5, 'normal', C.accent);
-  doc.text(DATA.title, ML + 4, 21.5);
+  font(doc, 7.5, 'normal', [160, 200, 220] as RGB);
+  const contacts = `${DATA.email}   |   ${DATA.phone}   |   ${DATA.location}   |   ${DATA.linkedin}`;
+  doc.text(contacts, ML + 5, 29);
 
-  // Contact line in header
-  setFont(doc, 7.5, 'normal', [160, 200, 220]);
-  const contacts = [DATA.email, DATA.phone, DATA.location, DATA.linkedin];
-  const cStr = contacts.join('   ·   ');
-  doc.text(cStr, ML + 4, 30);
+  let y = 44;
 
-  // ── SIDEBAR BACKGROUND ─────────────────────────────────────────
-  doc.setFillColor(...C.bg);
-  doc.rect(0, HEADER_H, ML + COL + GAP / 2, PH - HEADER_H, 'F');
+  // ── SUMMARY ─────────────────────────────────────────────────────
+  y = sectionHead(doc, 'Professional Summary', y);
+  font(doc, 8.5, 'normal', MID);
+  y = wrap(doc, DATA.summary, ML, y, TW, 4.5);
+  y += 6;
 
-  // ── SIDEBAR CONTENT ────────────────────────────────────────────
-  let sy = HEADER_H + 10;
+  // ── CORE SKILLS ─────────────────────────────────────────────────
+  y = sectionHead(doc, 'Core Skills', y);
 
-  // Skills
-  sy = sideHeading(doc, 'Skills', sy);
   for (const sk of DATA.skills) {
-    if (sy > PH - 20) { doc.addPage(); sy = 16; }
-    setFont(doc, 7, 'bold', C.dark);
-    doc.text(sk.cat, ML, sy);
-    sy += 3.8;
-    setFont(doc, 6.5, 'normal', C.mid);
-    const lines = doc.splitTextToSize(sk.items, COL - 2);
-    doc.text(lines, ML, sy);
-    sy += lines.length * 3.2 + 2.5;
+    if (y + 8 > PH - BOT) { doc.addPage(); y = 22; }
+    font(doc, 8.5, 'bold', DARK);
+    doc.text(`${sk.cat}:`, ML, y);
+    const labelW = doc.getTextWidth(`${sk.cat}: `);
+    font(doc, 8.5, 'normal', MID);
+    y = wrap(doc, sk.val, ML + labelW, y, TW - labelW, 4.5);
+    y += 1.5;
   }
+  y += 4;
 
-  sy += 3;
-
-  // Certifications
-  sy = sideHeading(doc, 'Certifications', sy);
-  for (const cert of DATA.certifications) {
-    if (sy > PH - 20) { doc.addPage(); sy = 16; }
-    setFont(doc, 6.5, 'normal', C.mid);
-    const lines = doc.splitTextToSize(`· ${cert}`, COL - 2);
-    doc.text(lines, ML, sy);
-    sy += lines.length * 3.5 + 1.5;
-  }
-
-  sy += 3;
-
-  // Education
-  sy = sideHeading(doc, 'Education', sy);
-  for (const ed of DATA.education) {
-    if (sy > PH - 24) { doc.addPage(); sy = 16; }
-    setFont(doc, 7, 'bold', C.dark);
-    const degLines = doc.splitTextToSize(ed.degree, COL);
-    doc.text(degLines, ML, sy);
-    sy += degLines.length * 3.5 + 1;
-    setFont(doc, 6.5, 'italic', C.mid);
-    const schLines = doc.splitTextToSize(ed.school, COL);
-    doc.text(schLines, ML, sy);
-    sy += schLines.length * 3.2;
-    setFont(doc, 6.5, 'normal', [120, 150, 170]);
-    doc.text(ed.period, ML, sy);
-    sy += 6;
-  }
-
-  // ── MAIN COLUMN ────────────────────────────────────────────────
-  let my = HEADER_H + 10;
-
-  // Summary
-  my = sectionHeading(doc, 'Professional Summary', my);
-  setFont(doc, 8, 'normal', C.mid);
-  my = wrappedText(doc, DATA.summary, MX, my, MW, 4.2);
-  my += 5;
-
-  // Experience
-  my = sectionHeading(doc, 'Work Experience', my);
+  // ── EXPERIENCE ──────────────────────────────────────────────────
+  y = sectionHead(doc, 'Professional Experience', y);
 
   for (const job of DATA.experience) {
-    // Guard page break before each job header
-    if (my > PH - 38) { doc.addPage(); my = 24; }
+    if (y + 20 > PH - BOT) { doc.addPage(); y = 22; }
 
-    // Company + period row
-    setFont(doc, 9, 'bold', C.black);
-    doc.text(job.company, MX, my);
-    setFont(doc, 7.5, 'normal', C.mid);
-    doc.text(job.period, PW - MR, my, { align: 'right' });
-    my += 4.2;
+    // Role title
+    font(doc, 9.5, 'bold', DARK);
+    doc.text(job.title, ML, y);
+    // Period right-aligned
+    font(doc, 8, 'normal', MID);
+    doc.text(job.period, ML + TW, y, { align: 'right' });
+    y += 4.5;
 
-    // Title + location
-    setFont(doc, 8, 'bold', C.accent);
-    doc.text(job.title, MX, my);
-    setFont(doc, 7, 'normal', C.mid);
-    doc.text(job.loc, PW - MR, my, { align: 'right' });
-    my += 5;
+    // Company + location
+    font(doc, 8.5, 'bold', ACCENT);
+    doc.text(job.company, ML, y);
+    font(doc, 8, 'normal', MID);
+    doc.text(` – ${job.loc}`, ML + doc.getTextWidth(job.company), y);
+    y += 5.5;
 
-    // Bullet duties
-    setFont(doc, 7.5, 'normal', C.mid);
+    // Bullets
+    font(doc, 8, 'normal', MID);
     for (const duty of job.duties) {
-      if (my > PH - 18) { doc.addPage(); my = 24; }
-      const bullet = `• ${duty}`;
-      const lines = doc.splitTextToSize(bullet, MW - 4);
-      doc.text(lines, MX + 2, my);
-      my += lines.length * 3.8;
+      if (y + 5 > PH - BOT) { doc.addPage(); y = 22; }
+      const lines = doc.splitTextToSize(duty, TW - 6);
+      doc.text('-', ML + 1, y);
+      doc.text(lines, ML + 5, y);
+      y += lines.length * 4 + 0.8;
     }
-
-    my += 4;
+    y += 4;
     if (DATA.experience.indexOf(job) < DATA.experience.length - 1) {
-      hRule(doc, my - 2, MX, MW, 0.15);
+      rule(doc, y - 2, RULE, 0.2);
     }
   }
 
-  my += 3;
+  y += 2;
 
-  // Projects
-  if (my > PH - 50) { doc.addPage(); my = 24; }
-  my = sectionHeading(doc, 'Notable Projects', my);
+  // ── PROJECTS ────────────────────────────────────────────────────
+  if (y + 14 > PH - BOT) { doc.addPage(); y = 22; }
+  y = sectionHead(doc, 'Notable Projects', y);
 
   for (const proj of DATA.projects) {
-    if (my > PH - 18) { doc.addPage(); my = 24; }
-    setFont(doc, 8, 'bold', C.dark);
-    doc.text(proj.name, MX, my);
-    my += 4;
-    setFont(doc, 7.5, 'normal', C.mid);
-    const lines = doc.splitTextToSize(proj.desc, MW);
-    doc.text(lines, MX + 2, my);
-    my += lines.length * 3.8 + 2;
+    if (y + 10 > PH - BOT) { doc.addPage(); y = 22; }
+    font(doc, 8.5, 'bold', DARK);
+    doc.text(`${proj.name}:`, ML, y);
+    const lw = doc.getTextWidth(`${proj.name}: `);
+    font(doc, 8.5, 'normal', MID);
+    y = wrap(doc, proj.desc, ML + lw, y, TW - lw, 4.5);
+    y += 2;
   }
 
-  // ── FOOTER ─────────────────────────────────────────────────────
-  const pageCount = doc.getNumberOfPages();
-  for (let i = 1; i <= pageCount; i++) {
+  y += 4;
+
+  // ── CERTIFICATIONS ──────────────────────────────────────────────
+  if (y + 14 > PH - BOT) { doc.addPage(); y = 22; }
+  y = sectionHead(doc, 'Certifications', y);
+
+  for (const cert of DATA.certifications) {
+    if (y + 6 > PH - BOT) { doc.addPage(); y = 22; }
+    font(doc, 8.5, 'normal', MID);
+    doc.text('-', ML + 1, y);
+    y = wrap(doc, cert, ML + 5, y, TW - 5, 4.5);
+    y += 1;
+  }
+
+  y += 4;
+
+  // ── EDUCATION ───────────────────────────────────────────────────
+  if (y + 14 > PH - BOT) { doc.addPage(); y = 22; }
+  y = sectionHead(doc, 'Education', y);
+
+  for (const ed of DATA.education) {
+    if (y + 12 > PH - BOT) { doc.addPage(); y = 22; }
+    font(doc, 8.5, 'bold', DARK);
+    doc.text(ed.degree, ML, y);
+    font(doc, 8, 'normal', MID);
+    y += 4.2;
+    doc.text(`${ed.school}  |  ${ed.period}`, ML, y);
+    y += 6;
+  }
+
+  // ── FOOTER on every page ────────────────────────────────────────
+  const pages = doc.getNumberOfPages();
+  for (let i = 1; i <= pages; i++) {
     doc.setPage(i);
-    setFont(doc, 6.5, 'normal', [160, 185, 200]);
-    doc.text(`Surely Win B. Dilag  ·  CV  ·  Page ${i} of ${pageCount}`, PW / 2, PH - 8, { align: 'center' });
-    hRule(doc, PH - 11, ML, PW - ML - MR, 0.15);
+    rule(doc, PH - 11, RULE, 0.2);
+    font(doc, 6.5, 'normal', [150, 170, 190] as RGB);
+    doc.text(`Surely Win B. Dilag  ·  Systems & DevOps Engineer  ·  Page ${i} of ${pages}`, PW / 2, PH - 7, { align: 'center' });
   }
 
-  doc.save('Surely_Win_Dilag_CV.pdf');
+  doc.save('SurelyWinDilag_CV.pdf');
 }
