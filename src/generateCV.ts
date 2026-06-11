@@ -153,16 +153,20 @@ const DATA = {
       desc: 'Full-stack React/TypeScript/Vite + Supabase web app for Magic: The Gathering collection management with AI-assisted deck building (Scryfall + Gemini architecture).',
     },
     {
-      name: 'LFV UTM Elevation Pipeline',
-      desc: 'Processed 76 Swedish terrain XYZ tiles into a merged Cloud-Optimized GeoTIFF using PDAL and QGIS for UTM airspace operational data.',
+      name: 'Blind Mind Assistance',
+      desc: 'Arduino-based assistive device with SMS and GPS navigation for visually impaired individuals.',
     },
     {
-      name: 'AVIONIX ATC Platform',
-      desc: 'Built a 10-microservice Spring Boot ATC management system with React frontend, Keycloak, Kafka, PostgreSQL, and full observability stack on Azure.',
+      name: 'Cemetery Web & Mobile App',
+      desc: 'Full-stack WebApp and Mobile App for Sapian Cemetery — enabling digital lot management and visitor navigation.',
     },
     {
-      name: 'AIXM Upload Automation',
-      desc: 'Python automation script replacing Postman workflows for airspace data ingestion, featuring token caching, retry logic, XML pre-flight validation, and dry-run mode.',
+      name: 'Bluetooth Garbage Collector',
+      desc: 'Semi-automated Bluetooth-controlled garbage collector robot for autonomous waste collection.',
+    },
+    {
+      name: 'Solar Automated Trash Bin',
+      desc: 'Solar-powered automated trash bin with smart detection for sustainable waste management.',
     },
   ],
 };
