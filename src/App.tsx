@@ -167,7 +167,7 @@ export default function App() {
           
           <button
             onClick={generateCV}
-            className="hidden sm:flex items-center gap-2 px-4 py-2 border border-[var(--accent)] text-[var(--accent)] text-[11px] uppercase tracking-wider rounded-sm hover:bg-[var(--accent)] hover:text-[var(--bg)] transition-all"
+            className="flex items-center gap-2 px-4 py-2 border border-[var(--accent)] text-[var(--accent)] text-[11px] uppercase tracking-wider rounded-sm hover:bg-[var(--accent)] hover:text-[var(--bg)] transition-all"
           >
             <FileDown size={14} />
             Download CV
@@ -208,6 +208,13 @@ export default function App() {
                 {link.name}
               </a>
             ))}
+            <button
+              onClick={() => { generateCV(); setIsMenuOpen(false); }}
+              className="flex items-center gap-2 py-2 text-sm uppercase tracking-widest text-[var(--accent)] border-t border-[var(--border)] mt-2 pt-4"
+            >
+              <FileDown size={16} />
+              Download CV
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
@@ -242,6 +249,10 @@ export default function App() {
               <a href="#experience" className="px-6 py-3 bg-[var(--accent)] text-[var(--bg)] font-bold text-[12px] uppercase tracking-wider rounded-sm hover:translate-y-[-2px] hover:shadow-[0_8px_24px_rgba(0,212,255,0.25)] transition-all">
                 View Experience
               </a>
+              <button onClick={generateCV} className="px-6 py-3 border border-[var(--accent)] text-[var(--accent)] font-bold text-[12px] uppercase tracking-wider rounded-sm hover:bg-[var(--accent)] hover:text-[var(--bg)] hover:translate-y-[-2px] hover:shadow-[0_8px_24px_rgba(0,212,255,0.2)] transition-all flex items-center gap-2">
+                <FileDown size={14} />
+                Download CV
+              </button>
               <a href="#contact" className="px-6 py-3 border border-[var(--border)] text-[var(--text)] font-bold text-[12px] uppercase tracking-wider rounded-sm hover:border-[var(--accent)] hover:text-[var(--accent)] hover:translate-y-[-2px] transition-all">
                 Get in Touch
               </a>
