@@ -292,7 +292,8 @@ export function generateCV() {
   y += 2;
 
   // ── PROJECTS ────────────────────────────────────────────────────
-  if (y + 14 > PH - BOT) { doc.addPage(); y = 22; }
+  doc.addPage();
+  y = 22;
   y = sectionHead(doc, 'Notable Projects', y);
 
   for (const proj of DATA.projects) {
