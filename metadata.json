@@ -1,5 +1,9 @@
 {
-  "name": "Surely Win B. Dilag Portfolio",
-  "description": "Cloud / Systems / DevOps Engineer portfolio showcasing expertise in Azure, AWS, and Kubernetes.",
+  "name": "Surely Win B. Dilag — Systems & DevOps Engineer",
+  "short_name": "SW Dilag Portfolio",
+  "description": "Portfolio of Surely Win B. Dilag — Systems & DevOps Engineer based in the Philippines. Specialist in Azure (AZ-104), Kubernetes, OpenShift, CI/CD, Istio, AIXM/UTM aviation systems, and cloud infrastructure automation.",
+  "author": "Surely Win B. Dilag",
+  "url": "https://sdilag.us",
+  "keywords": "Surely Win Dilag, Systems Engineer, DevOps Engineer, Azure, Kubernetes, OpenShift, UTM, ATM, AIXM, Philippines",
   "requestFramePermissions": []
 }
