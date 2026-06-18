@@ -204,7 +204,7 @@ function sectionHead(doc: jsPDF, label: string, y: number): number {
 }
 
 // ── Main export ───────────────────────────────────────────────────
-export function generateCV() {
+function buildDoc() {
   const doc = new jsPDF({ unit: 'mm', format: 'a4', compress: true });
 
   doc.setProperties({
@@ -347,5 +347,14 @@ export function generateCV() {
     doc.text(`Surely Win B. Dilag  ·  Systems & DevOps Engineer  ·  Page ${i} of ${pages}`, PW / 2, PH - 7, { align: 'center' });
   }
 
-  doc.save('SurelyWinDilag_CV.pdf');
+  return doc;
+}
+
+export function generateCV(): void {
+  buildDoc().save('SurelyWinDilag_CV.pdf');
+}
+
+export async function generateCVBlob(): Promise<Blob> {
+  const doc = buildDoc();
+  return doc.output('blob');
 }

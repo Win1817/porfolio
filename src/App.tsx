@@ -22,9 +22,11 @@ import {
   Globe,
   Settings,
   FileDown,
-  Brain
+  Brain,
+  Eye,
+  X as XIcon
 } from 'lucide-react';
-import { generateCV } from './generateCV';
+import { generateCV, generateCVBlob } from './generateCV';
 
 const AVAILABILITY_STATUS = import.meta.env.VITE_AVAILABILITY_STATUS || 'available';
 
@@ -36,6 +38,7 @@ const STATUS_CONFIG = {
 export default function App() {
   const [isDark, setIsDark] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [cvPreviewUrl, setCvPreviewUrl] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState('hero');
 
   useEffect(() => {
@@ -205,11 +208,11 @@ export default function App() {
               </a>
             ))}
             <button
-              onClick={() => { generateCV(); setIsMenuOpen(false); }}
+              onClick={() => { previewCV(); setIsMenuOpen(false); }}
               className="flex items-center gap-2 py-2 text-sm uppercase tracking-widest text-[var(--accent)] border-t border-[var(--border)] mt-2 pt-4"
             >
-              <FileDown size={16} />
-              Download CV
+              <Eye size={16} />
+              Preview CV
             </button>
           </motion.div>
         )}
@@ -245,9 +248,9 @@ export default function App() {
               <a href="#experience" className="px-6 py-3 bg-[var(--accent)] text-[var(--bg)] font-bold text-[12px] uppercase tracking-wider rounded-sm hover:translate-y-[-2px] hover:shadow-[0_8px_24px_rgba(0,212,255,0.25)] transition-all">
                 View Experience
               </a>
-              <button onClick={generateCV} className="px-6 py-3 border border-[var(--accent)] text-[var(--accent)] font-bold text-[12px] uppercase tracking-wider rounded-sm hover:bg-[var(--accent)] hover:text-[var(--bg)] hover:translate-y-[-2px] hover:shadow-[0_8px_24px_rgba(0,212,255,0.2)] transition-all flex items-center gap-2">
-                <FileDown size={14} />
-                Download CV
+              <button onClick={previewCV} className="px-6 py-3 border border-[var(--accent)] text-[var(--accent)] font-bold text-[12px] uppercase tracking-wider rounded-sm hover:bg-[var(--accent)] hover:text-[var(--bg)] hover:translate-y-[-2px] hover:shadow-[0_8px_24px_rgba(0,212,255,0.2)] transition-all flex items-center gap-2">
+                <Eye size={14} />
+                Preview CV
               </button>
               <a href="#contact" className="px-6 py-3 border border-[var(--border)] text-[var(--text)] font-bold text-[12px] uppercase tracking-wider rounded-sm hover:border-[var(--accent)] hover:text-[var(--accent)] hover:translate-y-[-2px] transition-all">
                 Get in Touch
@@ -608,6 +611,42 @@ export default function App() {
         </a>
         <span className="text-[var(--accent)]">Cloud · Systems · DevOps</span>
       </footer>
+    </div>
+
+      {/* CV Preview Modal */}
+      {cvPreviewUrl && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" onClick={closePreview}>
+          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+          <div className="relative z-10 w-full max-w-4xl h-[90vh] flex flex-col rounded-sm border border-[var(--border)] overflow-hidden shadow-2xl" onClick={e => e.stopPropagation()}>
+            {/* Modal Header */}
+            <div className="flex items-center justify-between px-5 py-3 bg-[var(--surface)] border-b border-[var(--border)] shrink-0">
+              <div className="flex items-center gap-3">
+                <Eye size={16} className="text-[var(--accent)]" />
+                <span className="text-[12px] uppercase tracking-widest text-[var(--white)] font-bold">CV Preview</span>
+                <span className="text-[11px] text-[var(--muted)]">— Surely Win B. Dilag</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={downloadCV}
+                  className="flex items-center gap-2 px-4 py-1.5 bg-[var(--accent)] text-[var(--bg)] text-[11px] uppercase tracking-wider font-bold rounded-sm hover:brightness-110 transition-all"
+                >
+                  <FileDown size={13} />
+                  Download
+                </button>
+                <button onClick={closePreview} className="p-1.5 text-[var(--muted)] hover:text-[var(--white)] transition-colors">
+                  <XIcon size={18} />
+                </button>
+              </div>
+            </div>
+            {/* PDF Viewer */}
+            <iframe
+              src={cvPreviewUrl}
+              className="flex-1 w-full bg-white"
+              title="CV Preview"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
