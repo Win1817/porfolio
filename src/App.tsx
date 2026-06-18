@@ -21,7 +21,8 @@ import {
   Code,
   Globe,
   Settings,
-  FileDown
+  FileDown,
+  Brain
 } from 'lucide-react';
 import { generateCV } from './generateCV';
 
@@ -54,6 +55,7 @@ export default function App() {
     { name: 'Experience', href: '#experience' },
     { name: 'Education', href: '#education' },
     { name: 'Projects', href: '#projects' },
+    { name: 'Homelab', href: '#homelab' },
     { name: 'Contact', href: '#contact' },
   ];
 
@@ -465,12 +467,93 @@ export default function App() {
         </div>
       </section>
 
+      {/* Homelab & AI Section */}
+      <section id="homelab" className="bg-[var(--surface)] px-6 md:px-12 py-24">
+        <div className="max-w-[1100px] mx-auto">
+          <div className="flex items-center gap-5 mb-14">
+            <span className="text-[11px] text-[var(--accent)] uppercase tracking-[0.15em]">05</span>
+            <h2 className="font-display text-3xl md:text-4xl font-extrabold text-[var(--white)] tracking-tight">Homelab & AI</h2>
+            <div className="flex-1 h-[1px] bg-[var(--border)] max-w-[200px]"></div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            {/* LLM Infrastructure */}
+            <div className="p-8 border border-[var(--border)] rounded-sm relative overflow-hidden group hover:-translate-y-1 transition-all">
+              <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-[var(--accent)] to-transparent scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500"></div>
+              <div className="flex items-center gap-3 mb-5">
+                <Brain className="w-5 h-5 text-[var(--accent)]" />
+                <h3 className="font-display text-[17px] font-bold text-[var(--white)]">Self-Hosted LLM Infrastructure</h3>
+              </div>
+              <p className="text-[12px] text-[var(--muted)] leading-relaxed mb-5">
+                Running a private AI inference stack on a dedicated Proxmox VM (<span className="text-[var(--accent2)]">sup-qwen-01</span>) with <span className="text-[var(--white)]">Ollama</span> serving <span className="text-[var(--white)]">Qwen3</span> models. Exposed via <span className="text-[var(--white)]">Open WebUI</span> behind Nginx reverse proxy and a Cloudflare Tunnel for secure remote access — no public port exposure.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {['Ollama', 'Qwen3', 'Open WebUI', 'Proxmox', 'Nginx', 'Cloudflare Tunnel'].map(t => (
+                  <span key={t} className="text-[10px] px-2 py-1 border border-[var(--border)] text-[var(--muted)] rounded-sm font-mono">{t}</span>
+                ))}
+              </div>
+            </div>
+
+            {/* Observability */}
+            <div className="p-8 border border-[var(--border)] rounded-sm relative overflow-hidden group hover:-translate-y-1 transition-all">
+              <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-[var(--accent2)] to-transparent scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500"></div>
+              <div className="flex items-center gap-3 mb-5">
+                <Monitor className="w-5 h-5 text-[var(--accent2)]" />
+                <h3 className="font-display text-[17px] font-bold text-[var(--white)]">Inference Observability</h3>
+              </div>
+              <p className="text-[12px] text-[var(--muted)] leading-relaxed mb-5">
+                Model performance monitored via <span className="text-[var(--white)]">Prometheus</span> + <span className="text-[var(--white)]">ollama-exporter</span> with custom <span className="text-[var(--white)]">Grafana</span> dashboards tracking token throughput, request latency, and GPU/CPU utilisation across model versions.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {['Prometheus', 'Grafana', 'ollama-exporter', 'Node Exporter'].map(t => (
+                  <span key={t} className="text-[10px] px-2 py-1 border border-[var(--border)] text-[var(--muted)] rounded-sm font-mono">{t}</span>
+                ))}
+              </div>
+            </div>
+
+            {/* Fine-tuning */}
+            <div className="p-8 border border-[var(--border)] rounded-sm relative overflow-hidden group hover:-translate-y-1 transition-all">
+              <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-[var(--accent)] to-transparent scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500"></div>
+              <div className="flex items-center gap-3 mb-5">
+                <Code className="w-5 h-5 text-[var(--accent)]" />
+                <h3 className="font-display text-[17px] font-bold text-[var(--white)]">Model Fine-Tuning</h3>
+              </div>
+              <p className="text-[12px] text-[var(--muted)] leading-relaxed mb-5">
+                Fine-tuning LLMs using <span className="text-[var(--white)]">LoRA</span> and <span className="text-[var(--white)]">QLoRA</span> (quantized low-rank adaptation) for domain-specific tasks on consumer hardware. Training pipelines built with <span className="text-[var(--white)]">PyTorch</span> and <span className="text-[var(--white)]">NumPy</span> for data preprocessing, tensor manipulation, and loss monitoring.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {['LoRA', 'QLoRA', 'PyTorch', 'NumPy', 'PEFT', 'Transformers'].map(t => (
+                  <span key={t} className="text-[10px] px-2 py-1 border border-[var(--border)] text-[var(--muted)] rounded-sm font-mono">{t}</span>
+                ))}
+              </div>
+            </div>
+
+            {/* RAG */}
+            <div className="p-8 border border-[var(--border)] rounded-sm relative overflow-hidden group hover:-translate-y-1 transition-all">
+              <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-[var(--accent2)] to-transparent scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500"></div>
+              <div className="flex items-center gap-3 mb-5">
+                <Database className="w-5 h-5 text-[var(--accent2)]" />
+                <h3 className="font-display text-[17px] font-bold text-[var(--white)]">RAG Pipelines</h3>
+              </div>
+              <p className="text-[12px] text-[var(--muted)] leading-relaxed mb-5">
+                Building <span className="text-[var(--white)]">Retrieval-Augmented Generation</span> pipelines with <span className="text-[var(--white)]">LangChain</span> to ground Qwen model responses in private knowledge bases — enabling domain-aware querying over infrastructure documentation, runbooks, and technical specs without retraining.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {['LangChain', 'RAG', 'Vector Embeddings', 'Qwen3'].map(t => (
+                  <span key={t} className="text-[10px] px-2 py-1 border border-[var(--border)] text-[var(--muted)] rounded-sm font-mono">{t}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Contact Section */}
       <section id="contact" className="px-6 md:px-12 py-24 text-center relative overflow-hidden">
         <div className="absolute w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(0,212,255,0.06)_0%,transparent_70%)] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
         
         <div className="relative z-10">
-          <div className="text-[11px] uppercase tracking-[0.15em] text-[var(--muted)] mb-3">05 — Let's Connect</div>
+          <div className="text-[11px] uppercase tracking-[0.15em] text-[var(--muted)] mb-3">06 — Let's Connect</div>
           <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-extrabold text-[var(--white)] tracking-tight mb-8">
             Open to new<br />opportunities.
           </h2>
