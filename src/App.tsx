@@ -611,7 +611,6 @@ export default function App() {
         </a>
         <span className="text-[var(--accent)]">Cloud · Systems · DevOps</span>
       </footer>
-    </div>
 
       {/* CV Preview Modal */}
       {cvPreviewUrl && (
