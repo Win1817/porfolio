@@ -61,6 +61,8 @@ const DATA = {
       val: 'MySQL, Microsoft SQL Server, Amazon RDS' },
     { cat: 'ITSM & Docs',
       val: 'JIRA, Confluence, Jama, ConnectWise' },
+    { cat: 'AI / ML',
+      val: 'Ollama, Qwen3, LoRA, QLoRA, PyTorch, NumPy, LangChain, RAG, Open WebUI' },
   ],
 
   certifications: [
@@ -99,7 +101,7 @@ const DATA = {
         'Architect and maintain Azure cloud infrastructure (AZ-104): VNets, NSGs, firewall policies, IAM, Azure Monitor, ARM templates, Azure AI Foundry, and Azure OpenAI integrations.',
         'Oversee AKS and OpenShift cluster lifecycle — provisioning, upgrades, scaling, and security hardening; manage Istio service mesh with mTLS, traffic routing, circuit breaking, and Kiali observability.',
         'Build observability stacks using Prometheus, Grafana, Zabbix, Elasticsearch, OpenSearch, Kibana, Tempo, and Jaeger; monitor latency, jitter, and packet loss against ATM SLA boundaries.',
-        'Lead CI/CD pipeline governance using Git, GitOps, Azure DevOps, and JFrog Artifactory; mentor junior engineers and coordinate cross-functional incident response.',
+        'Enforce CI/CD pipeline governance using Git, GitOps, Azure DevOps, and JFrog Artifactory; mentor junior engineers and coordinate cross-functional incident response.',
         'Collaborate with LFV Sweden and ANS Lithuania on EU SWIM compliance, AIXM data quality standards, and UTM terrain analysis using QGIS and Cloud-Optimized GeoTIFF datasets.',
       ],
     },
