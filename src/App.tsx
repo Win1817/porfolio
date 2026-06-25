@@ -23,8 +23,7 @@ import {
   Settings,
   FileDown,
   Brain,
-  Eye,
-  X as XIcon
+  Eye
 } from 'lucide-react';
 import { generateCV, generateCVBlob } from './generateCV';
 
@@ -633,7 +632,7 @@ export default function App() {
                   Download
                 </button>
                 <button onClick={closePreview} className="p-1.5 text-[var(--muted)] hover:text-[var(--white)] transition-colors">
-                  <XIcon size={18} />
+                  <X size={18} />
                 </button>
               </div>
             </div>
