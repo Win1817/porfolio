@@ -51,11 +51,11 @@ export default function App() {
   const previewCV = async () => {
     const blob = await generateCVBlob();
     const url = URL.createObjectURL(blob);
-    setCvPreviewUrl(url);
+    setCvPreviewUrl(url + '#toolbar=1&navpanes=1&scrollbar=1&view=FitH');
   };
 
   const closePreview = () => {
-    if (cvPreviewUrl) URL.revokeObjectURL(cvPreviewUrl);
+    if (cvPreviewUrl) URL.revokeObjectURL(cvPreviewUrl.split('#')[0]);
     setCvPreviewUrl(null);
   };
 
@@ -658,11 +658,17 @@ export default function App() {
               </div>
             </div>
             {/* PDF Viewer */}
-            <iframe
-              src={cvPreviewUrl}
+            <object
+              data={cvPreviewUrl ?? ''}
+              type="application/pdf"
               className="flex-1 w-full bg-white"
-              title="CV Preview"
-            />
+            >
+              <iframe
+                src={cvPreviewUrl ?? ''}
+                className="flex-1 w-full h-full bg-white border-0"
+                title="CV Preview"
+              />
+            </object>
           </div>
         </div>
       )}
