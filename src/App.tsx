@@ -358,10 +358,12 @@ export default function App() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             <div className="space-y-6 text-[var(--text)] leading-relaxed">
               <p>
-                I am a dedicated <span className="text-[var(--white)] font-semibold">Systems and Cloud Engineer</span> with a passion for architecting and maintaining high-availability infrastructure. My journey in technology began with a deep curiosity about how complex systems communicate, which led me to specialize in cloud-native environments and mission-critical aviation systems.
+                I am a <span className="text-[var(--white)] font-semibold">Systems &amp; DevOps Engineer</span> with 4+ years of experience delivering and operating mission-critical infrastructure across cloud, Kubernetes, and aviation systems. My work sits at the intersection of platform engineering, systems reliability, and compliance — building infrastructure that aviation authorities and drone operators across Europe depend on every day.
               </p>
               <p>
-                With over 4 years of experience, I've navigated the complexities of hybrid cloud deployments, Kubernetes orchestration, and automated CI/CD pipelines. I thrive in environments where security, scalability, and observability are paramount. My work with AirNav Technology Services has particularly honed my ability to manage systems that demand 99.9% uptime and strict regulatory compliance.
+                At <span className="text-[var(--white)] font-semibold">AirNav Technology Services</span>, I engineer and maintain the <span className="text-[var(--white)] font-semibold">UTM/ILAS</span> platform — a Frequentis-powered system managing regulated drone operations across Sweden, Norway, Austria, Estonia, and Lithuania. My role spans Azure cloud architecture, AKS and OpenShift cluster operations, AIXM data pipelines, and EU SWIM compliance within an ISO/IEC 15288 systems engineering lifecycle.</p>
+              <p>
+                I thrive in environments where precision, reliability, and security are non-negotiable — from authoring Component Security Assurance Records aligned with <span className="text-[var(--white)] font-semibold">ED-202A/DO-326A</span> to building observability stacks that monitor ATM SLA boundaries in real time.
               </p>
             </div>
             <div className="space-y-6 text-[var(--text)] leading-relaxed">
@@ -369,14 +371,16 @@ export default function App() {
                 <Globe size={20} className="text-[var(--accent)]" /> Career Aspirations
               </h3>
               <p>
-                My goal is to evolve into a <span className="text-[var(--white)] font-semibold">Senior DevOps Architect</span>, focusing on the intersection of AI-driven infrastructure and global-scale distributed systems. I am particularly interested in advancing my expertise in:
+                My goal is to grow into a <span className="text-[var(--white)] font-semibold">Senior Systems or DevOps Architect</span> role — taking deeper ownership of platform strategy, cross-functional engineering governance, and AI-integrated infrastructure. I am particularly focused on advancing in:
               </p>
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {[
-                  'Advanced Site Reliability Engineering (SRE)',
-                  'Multi-Cloud Strategy & Governance',
-                  'AI-Ops & Automated Remediation',
-                  'Zero-Trust Security Architectures'
+                  'Aviation & UTM Systems Engineering',
+                  'Multi-Cloud Architecture & Governance',
+                  'AI-Ops & Intelligent Automation',
+                  'Zero-Trust Security & Compliance',
+                  'Site Reliability Engineering (SRE)',
+                  'Platform Engineering Leadership'
                 ].map((item) => (
                   <li key={item} className="flex items-center gap-2 text-[13px]">
                     <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent2)]"></span>
@@ -385,7 +389,7 @@ export default function App() {
                 ))}
               </ul>
               <p className="pt-4 italic text-[var(--muted)]">
-                "I believe that great engineering isn't just about building things that work, but building things that last and empower others."
+                "Impactful engineering isn't just about building things that work — it's about building systems that uphold safety, enable trust, and empower the people who depend on them."
               </p>
             </div>
           </div>
