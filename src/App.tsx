@@ -636,7 +636,7 @@ export default function App() {
       {cvPreviewUrl && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" onClick={closePreview}>
           <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
-          <div className="relative z-10 w-full max-w-4xl h-[90vh] flex flex-col rounded-sm border border-[var(--border)] overflow-hidden shadow-2xl" onClick={e => e.stopPropagation()}>
+          <div className="relative z-10 w-full max-w-4xl flex flex-col rounded-sm border border-[var(--border)] shadow-2xl overflow-hidden" style={{height: '90vh'}} onClick={e => e.stopPropagation()}>
             {/* Modal Header */}
             <div className="flex items-center justify-between px-5 py-3 bg-[var(--surface)] border-b border-[var(--border)] shrink-0">
               <div className="flex items-center gap-3">
@@ -658,17 +658,12 @@ export default function App() {
               </div>
             </div>
             {/* PDF Viewer */}
-            <object
-              data={cvPreviewUrl ?? ''}
-              type="application/pdf"
-              className="flex-1 w-full bg-white"
-            >
-              <iframe
-                src={cvPreviewUrl ?? ''}
-                className="flex-1 w-full h-full bg-white border-0"
-                title="CV Preview"
-              />
-            </object>
+            <iframe
+              src={cvPreviewUrl ?? ''}
+              className="w-full bg-white border-0"
+              style={{ flex: 1, minHeight: 0, height: '100%' }}
+              title="CV Preview"
+            />
           </div>
         </div>
       )}
