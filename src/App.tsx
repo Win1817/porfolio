@@ -48,6 +48,27 @@ export default function App() {
     }
   }, [isDark]);
 
+  const previewCV = async () => {
+    const blob = await generateCVBlob();
+    const url = URL.createObjectURL(blob);
+    setCvPreviewUrl(url);
+  };
+
+  const closePreview = () => {
+    if (cvPreviewUrl) URL.revokeObjectURL(cvPreviewUrl);
+    setCvPreviewUrl(null);
+  };
+
+  const downloadCV = async () => {
+    const blob = await generateCVBlob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'SurelyWinDilag_CV.pdf';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   const toggleTheme = () => setIsDark(!isDark);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
