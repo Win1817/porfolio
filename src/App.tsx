@@ -26,6 +26,8 @@ import {
   Eye
 } from 'lucide-react';
 import { generateCV, generateCVBlob } from './generateCV';
+import * as pdfjsLib from 'pdfjs-dist';
+pdfjsLib.GlobalWorkerOptions.workerSrc = new URL('pdfjs-dist/build/pdf.worker.mjs', import.meta.url).toString();
 
 const AVAILABILITY_STATUS = import.meta.env.VITE_AVAILABILITY_STATUS || 'available';
 
@@ -38,6 +40,8 @@ export default function App() {
   const [isDark, setIsDark] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [cvPreviewUrl, setCvPreviewUrl] = useState<string | null>(null);
+  const [pdfPages, setPdfPages] = useState<string[]>([]);
+  const [pdfLoading, setPdfLoading] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
 
   useEffect(() => {
@@ -49,14 +53,35 @@ export default function App() {
   }, [isDark]);
 
   const previewCV = async () => {
+    setPdfLoading(true);
+    setPdfPages([]);
     const blob = await generateCVBlob();
     const url = URL.createObjectURL(blob);
-    setCvPreviewUrl(url + '#toolbar=1&navpanes=1&scrollbar=1&view=FitH');
+    setCvPreviewUrl(url);
+    try {
+      const arrayBuffer = await blob.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      const pages: string[] = [];
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const viewport = page.getViewport({ scale: 2.0 });
+        const canvas = document.createElement('canvas');
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+        const ctx = canvas.getContext('2d')!;
+        await page.render({ canvasContext: ctx, viewport }).promise;
+        pages.push(canvas.toDataURL('image/png'));
+      }
+      setPdfPages(pages);
+    } finally {
+      setPdfLoading(false);
+    }
   };
 
   const closePreview = () => {
-    if (cvPreviewUrl) URL.revokeObjectURL(cvPreviewUrl.split('#')[0]);
+    if (cvPreviewUrl) URL.revokeObjectURL(cvPreviewUrl);
     setCvPreviewUrl(null);
+    setPdfPages([]);
   };
 
   const downloadCV = async () => {
@@ -657,13 +682,23 @@ export default function App() {
                 </button>
               </div>
             </div>
-            {/* PDF Viewer */}
-            <iframe
-              src={cvPreviewUrl ?? ''}
-              className="w-full bg-white border-0"
-              style={{ flex: 1, minHeight: 0, height: '100%' }}
-              title="CV Preview"
-            />
+            {/* PDF Viewer - canvas rendered for mobile compatibility */}
+            <div className="flex-1 overflow-y-auto bg-gray-100 p-3 flex flex-col items-center gap-3" style={{minHeight:0}}>
+              {pdfLoading && (
+                <div className="flex items-center justify-center h-full w-full">
+                  <div className="text-[var(--accent)] text-[13px] uppercase tracking-widest animate-pulse">Rendering CV...</div>
+                </div>
+              )}
+              {pdfPages.map((src, i) => (
+                <img
+                  key={i}
+                  src={src}
+                  alt={`CV page ${i + 1}`}
+                  className="w-full max-w-2xl shadow-lg rounded-sm"
+                  style={{display:'block'}}
+                />
+              ))}
+            </div>
           </div>
         </div>
       )}
